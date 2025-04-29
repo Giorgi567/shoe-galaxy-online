@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
+import LoanOptions from './LoanOptions';
 
 interface ProductCardProps {
   id: string;
@@ -18,6 +19,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   category,
   className,
 }) => {
+  const [showLoanOptions, setShowLoanOptions] = useState(false);
+
   return (
     <div 
       className={cn(
@@ -39,12 +42,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </div>
       <div className="p-4">
         <h3 className="font-medium text-lg text-gray-900 mb-1 truncate">{name}</h3>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mb-2">
           <span className="text-shoe-dark font-bold">${price.toFixed(2)}</span>
           <button className="text-shoe-primary hover:text-shoe-dark font-medium text-sm">
             Add to Cart
           </button>
         </div>
+        <button
+          onClick={() => setShowLoanOptions(!showLoanOptions)}
+          className="text-sm text-gray-600 hover:text-shoe-primary transition-colors w-full text-center mt-2"
+        >
+          {showLoanOptions ? "Hide loan options" : "View loan options"}
+        </button>
+        
+        {showLoanOptions && (
+          <div className="mt-3">
+            <LoanOptions productPrice={price} />
+          </div>
+        )}
       </div>
     </div>
   );
